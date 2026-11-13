@@ -1,9 +1,21 @@
 @import "tailwindcss";
 
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Provisional logo-derived brand colours */
+  --brand-navy: #0b1464;
+  --brand-teal: #006b63;
+  --brand-teal-dark: #00564f;
+  --brand-teal-light: #e8f4f2;
+
+  /* Supporting colours */
+  --surface-white: #ffffff;
+  --surface-muted: #f5f7f8;
+  --text-primary: #202b3c;
+  --text-secondary: #64748b;
+  --border-subtle: #e8edf0;
 }
+
 
 @theme inline {
   --color-background: var(--background);
