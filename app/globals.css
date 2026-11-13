@@ -1,38 +1,419 @@
+
 @import "tailwindcss";
 
+/* =========================================
+   1. BRAND COLOURS
+   Extracted from the hospital logo SVG
+========================================= */
 
 :root {
-  /* Provisional logo-derived brand colours */
-  --brand-navy: #0b1464;
-  --brand-teal: #006b63;
-  --brand-teal-dark: #00564f;
-  --brand-teal-light: #e8f4f2;
+  /* Core brand palette */
+  --brand-navy: #050568;
+  --brand-gold: #FAC036;
+  --brand-periwinkle: #6767FE;
+  --brand-red: #E4352B;
 
-  /* Supporting colours */
-  --surface-white: #ffffff;
-  --surface-muted: #f5f7f8;
-  --text-primary: #202b3c;
-  --text-secondary: #64748b;
-  --border-subtle: #e8edf0;
+  /* Brand tints */
+  --brand-navy-light: #EEEEF5;
+  --brand-gold-light: #FFF8E7;
+  --brand-periwinkle-light: #F0F0FF;
+  --brand-red-light: #FDF0EF;
+
+  /* Brand shades */
+  --brand-navy-dark: #030344;
+  --brand-gold-dark: #D99D16;
+  --brand-periwinkle-dark: #4848D9;
+  --brand-red-dark: #C3211D;
+
+
+  /* =========================================
+     2. SEMANTIC COLOUR TOKENS
+  ========================================= */
+
+  /* Primary actions and identity */
+  --color-primary: var(--brand-navy);
+  --color-primary-hover: var(--brand-navy-dark);
+  --color-primary-soft: var(--brand-navy-light);
+
+  /* Secondary brand accents */
+  --color-secondary: var(--brand-periwinkle);
+  --color-secondary-hover: var(--brand-periwinkle-dark);
+  --color-secondary-soft: var(--brand-periwinkle-light);
+
+  /* Highlights */
+  --color-accent: var(--brand-gold);
+  --color-accent-hover: var(--brand-gold-dark);
+  --color-accent-soft: var(--brand-gold-light);
+
+  /* Status and emphasis */
+  --color-highlight: var(--brand-red);
+  --color-highlight-soft: var(--brand-red-light);
+
+
+  /* =========================================
+     3. SURFACES
+  ========================================= */
+
+  --color-background: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F7F8FA;
+  --color-surface-raised: #FFFFFF;
+  --color-surface-inverse: var(--brand-navy);
+
+
+  /* =========================================
+     4. TEXT COLOURS
+  ========================================= */
+
+  --color-text-primary: #20243A;
+  --color-text-secondary: #626B7C;
+  --color-text-muted: #8991A0;
+  --color-text-inverse: #FFFFFF;
+
+  --color-heading: var(--brand-navy);
+  --color-link: var(--brand-navy);
+  --color-link-hover: var(--brand-periwinkle-dark);
+
+
+  /* =========================================
+     5. BORDERS AND DIVIDERS
+  ========================================= */
+
+  --color-border: #E4E7ED;
+  --color-border-strong: #CBD0DB;
+  --color-divider: #EAECF1;
+  --color-focus: var(--brand-periwinkle);
+
+
+  /* =========================================
+     6. FEEDBACK COLOURS
+  ========================================= */
+
+  --color-success: #18794E;
+  --color-success-soft: #EAF6EF;
+
+  --color-warning: #946200;
+  --color-warning-soft: #FFF6DE;
+
+  --color-error: #C62828;
+  --color-error-soft: #FDECEC;
+
+  --color-info: #2458A6;
+  --color-info-soft: #EDF3FC;
+
+
+  /* =========================================
+     7. TYPOGRAPHY
+  ========================================= */
+
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-heading: Arial, Helvetica, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  --leading-tight: 1.2;
+  --leading-heading: 1.3;
+  --leading-body: 1.75;
+
+
+  /* =========================================
+     8. SPACING
+  ========================================= */
+
+  --section-space-sm: 3.5rem;
+  --section-space-md: 5rem;
+  --section-space-lg: 6.5rem;
+
+  --container-width: 80rem;
+  --container-padding: 1.25rem;
+
+
+  /* =========================================
+     9. BORDERS AND SHAPES
+  ========================================= */
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+
+  /* =========================================
+     10. SHADOWS
+  ========================================= */
+
+  --shadow-sm: 0 1px 3px rgb(5 5 104 / 6%);
+  --shadow-md: 0 6px 20px rgb(5 5 104 / 8%);
+  --shadow-lg: 0 14px 36px rgb(5 5 104 / 12%);
+
+
+  /* =========================================
+     11. TRANSITIONS
+  ========================================= */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
 }
 
+
+/* =========================================
+   12. TAILWIND THEME INTEGRATION
+   Makes tokens available as Tailwind utilities
+========================================= */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-periwinkle: var(--brand-periwinkle);
+  --color-brand-red: var(--brand-red);
+
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surface-muted: var(--color-surface-muted);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverse: var(--color-text-inverse);
+
+  --color-border: var(--color-border);
+  --color-divider: var(--color-divider);
+
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* =========================================
+   13. BASE STYLES
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  color: var(--color-heading);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: var(--leading-heading);
+}
+
+p {
+  margin: 0;
+}
+
+/* a {
+  color: inherit;
+  text-decoration: none;
+} */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+}
+
+
+/* =========================================
+   14. REUSABLE LAYOUT UTILITIES
+========================================= */
+
+.container-site {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.section-padding {
+  padding-block: var(--section-space-md);
+}
+
+.section-padding-sm {
+  padding-block: var(--section-space-sm);
+}
+
+.section-padding-lg {
+  padding-block: var(--section-space-lg);
+}
+
+
+/* =========================================
+   15. REUSABLE COMPONENT STYLES
+========================================= */
+
+.section-eyebrow {
+  color: var(--brand-periwinkle-dark);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section-heading {
+  color: var(--color-heading);
+  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+
+.section-description {
+  max-width: 42rem;
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+  line-height: var(--leading-body);
+}
+
+.button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  padding: 0.875rem 1.5rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition:
+    background var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.button-primary:hover {
+  border-color: var(--color-primary-hover);
+  background: var(--color-primary-hover);
+}
+
+.button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-primary);
+  padding: 0.875rem 1.5rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition:
+    color var(--transition-base),
+    background var(--transition-base);
+}
+
+.button-secondary:hover {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-interactive {
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.card-interactive:hover {
+  transform: translateY(-3px);
+  border-color: var(--brand-periwinkle);
+  box-shadow: var(--shadow-md);
+}
+
+
+/* =========================================
+   16. ACCESSIBILITY
+========================================= */
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--brand-gold);
+  color: var(--brand-navy-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* =========================================
+   17. RESPONSIVE ADJUSTMENTS
+========================================= */
+
+@media (min-width: 768px) {
+  :root {
+    --container-padding: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --section-space-md: 6rem;
+    --section-space-lg: 7.5rem;
+  }
 }
