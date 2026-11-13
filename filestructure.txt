@@ -1,0 +1,165 @@
+
+diani-beach-hospital/
+│
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── globals.css
+│   ├── not-found.tsx
+│   │
+│   ├── about-us/
+│   │   └── page.tsx
+│   │
+│   ├── services/
+│   │   └── page.tsx
+│   │
+│   ├── speciality-centres/
+│   │   └── page.tsx
+│   │
+│   ├── branches/
+│   │   └── page.tsx
+│   │
+│   ├── appointment-booking/
+│   │   └── page.tsx
+│   │
+│   ├── contact-us/
+│   │   └── page.tsx
+│   │
+│   ├── careers/
+│   │   └── page.tsx
+│   │
+│   ├── blogs/
+│   │   ├── page.tsx
+│   │   └── [slug]/
+│   │       └── page.tsx
+│   │
+│   ├── gallery/
+│   │   └── page.tsx
+│   │
+│   ├── health-packages/
+│   │   ├── page.tsx
+│   │   └── [slug]/
+│   │       └── page.tsx
+│   │
+│   ├── [slug]/
+│   │   └── page.tsx
+│   │
+│   ├── sitemap.ts
+│   ├── robots.ts
+│   └── icon.png
+│
+├── components/
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   ├── MainNavigation.tsx
+│   │   ├── MobileNavigation.tsx
+│   │   └── EmergencyContact.tsx
+│   │
+│   ├── home/
+│   │   ├── Hero.tsx
+│   │   ├── ServiceHighlights.tsx
+│   │   ├── SpecialityHighlights.tsx
+│   │   ├── BranchHighlights.tsx
+│   │   ├── HospitalIntroduction.tsx
+│   │   ├── Testimonials.tsx
+│   │   └── InsurancePartners.tsx
+│   │
+│   ├── services/
+│   │   ├── ServiceCard.tsx
+│   │   ├── ServiceGrid.tsx
+│   │   ├── ServiceDirectory.tsx
+│   │   └── ServiceDetail.tsx
+│   │
+│   ├── specialities/
+│   │   ├── SpecialityCard.tsx
+│   │   ├── SpecialityGrid.tsx
+│   │   ├── SpecialityDirectory.tsx
+│   │   └── SpecialityDetail.tsx
+│   │
+│   ├── content/
+│   │   ├── ContentHero.tsx
+│   │   ├── ContentSection.tsx
+│   │   ├── ContentImage.tsx
+│   │   ├── Breadcrumbs.tsx
+│   │   ├── RelatedContent.tsx
+│   │   └── CallToAction.tsx
+│   │
+│   ├── branches/
+│   │   ├── BranchCard.tsx
+│   │   ├── BranchDirectory.tsx
+│   │   └── BranchDetail.tsx
+│   │
+│   ├── forms/
+│   │   ├── AppointmentForm.tsx
+│   │   └── ContactForm.tsx
+│   │
+│   ├── about/
+│   │   ├── HistoryTimeline.tsx
+│   │   ├── MissionVision.tsx
+│   │   └── ValuesGrid.tsx
+│   │
+│   └── shared/
+│       ├── SectionHeading.tsx
+│       ├── Container.tsx
+│       ├── Button.tsx
+│       └── WhatsAppButton.tsx
+│
+├── data/
+│   ├── hospital.ts
+│   ├── navigation.ts
+│   ├── services.ts
+│   ├── specialities.ts
+│   ├── branches.ts
+│   ├── facilities.ts
+│   ├── doctors.ts
+│   ├── health-packages.ts
+│   ├── insurance-providers.ts
+│   ├── testimonials.ts
+│   ├── milestones.ts
+│   ├── faqs.ts
+│   └── blogs.ts
+│
+├── lib/
+│   ├── content.ts
+│   ├── content-resolver.ts
+│   ├── navigation.ts
+│   ├── metadata.ts
+│   ├── routes.ts
+│   └── utils.ts
+│
+├── types/
+│   ├── content.ts
+│   ├── service.ts
+│   ├── speciality.ts
+│   ├── branch.ts
+│   ├── facility.ts
+│   ├── doctor.ts
+│   └── hospital.ts
+│
+├── schemas/
+│   ├── service.schema.ts
+│   ├── speciality.schema.ts
+│   ├── branch.schema.ts
+│   └── appointment.schema.ts
+│
+├── public/
+│   ├── images/
+│   │   ├── branding/
+│   │   ├── hospital/
+│   │   ├── facilities/
+│   │   ├── services/
+│   │   ├── specialities/
+│   │   ├── branches/
+│   │   ├── team/
+│   │   └── gallery/
+│   │
+│   ├── icons/
+│   └── documents/
+│
+├── .env.example
+├── .gitignore
+├── next.config.ts
+├── package.json
+├── tsconfig.json
+└── README.md
