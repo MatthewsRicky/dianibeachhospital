@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import ContentSection from "@/components/shared/ContentSection";
 import PageCTA from "@/components/shared/PageCTA";
 import SpecializationsHero from "@/components/specialities/SpecializationsHero";
+import { specializations } from "@/data/specializations";
 
 export const metadata = {
   title: "Medical Specializations | Diani Beach Hospital",
@@ -12,64 +13,7 @@ export const metadata = {
     "Explore the medical specializations and clinical disciplines available at Diani Beach Hospital.",
 };
 
-const specializations = [
-  {
-    title: "Gastroenterology & Hepatology",
-    slug: "gastroenterology-and-hepatology",
-  },
-  {
-    title: "Orthopaedic & Trauma Surgery",
-    slug: "orthopaedic-and-trauma-surgery",
-  },
-  {
-    title: "Paediatrics & Neonatology",
-    slug: "paediatrics-and-neonatology",
-  },
-  {
-    title: "Obstetrics & Gynaecology",
-    slug: "obstetrics-and-gynaecology",
-  },
-  {
-    title: "Ear, Nose & Throat (ENT)",
-    slug: "ear-nose-and-throat-ent",
-  },
-  {
-    title: "Nephrology",
-    slug: "nephrology",
-  },
-  {
-    title: "Oncology (Cancer Treatment)",
-    slug: "oncology-cancer-treatment",
-  },
-  {
-    title: "Urology",
-    slug: "urology",
-  },
-  {
-    title: "Plastic & Reconstructive Surgery",
-    slug: "plastic-and-reconstructive-surgery",
-  },
-  {
-    title: "Dermatology",
-    slug: "dermatology",
-  },
-  {
-    title: "Neurosurgery & Neurology",
-    slug: "neurosurgery-and-neurology",
-  },
-  {
-    title: "Mental Health & Psychiatry",
-    slug: "mental-health-and-psychiatry",
-  },
-  {
-    title: "Rehabilitation Services",
-    slug: "rehabilitation-services",
-  },
-  {
-    title: "Pain Management",
-    slug: "pain-management",
-  },
-];
+
 
 export default function SpecializationPage() {
   return (
@@ -123,7 +67,7 @@ export default function SpecializationPage() {
                 </span>
 
                 <h3 className="font-semibold leading-6 text-[var(--brand-navy)]">
-                  {specialization.title}
+                  {specialization.name}
                 </h3>
               </div>
 

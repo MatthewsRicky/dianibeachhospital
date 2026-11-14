@@ -13,82 +13,28 @@ import ContentSection from "@/components/shared/ContentSection";
 import PageCTA from "@/components/shared/PageCTA";
 import ServicesHero from "@/components/services/ServicesHero";
 
+import { serviceGroups } from "@/data/services";
+import type { ServiceGroupKey } from "@/types/healthcare";
+import type { LucideIcon } from "lucide-react";
+
+const groupIcons: Record<ServiceGroupKey, LucideIcon> = {
+  general: Stethoscope,
+  diagnostics: Scan,
+  critical: HeartPulse,
+  allied: Activity,
+};
+
 export const metadata = {
   title: "Our Services | Diani Beach Hospital",
   description:
     "Explore the healthcare services and facilities available at Diani Beach Hospital, including inpatient care, diagnostic imaging, critical care and more.",
 };
 
-const serviceGroups = [
-  {
-    number: "01",
-    title: "General & Patient Care",
-    description:
-      "Services supporting patients through routine consultations, hospital admission and everyday healthcare needs.",
-    icon: Stethoscope,
-    services: [
-      { name: "Outpatient Services", slug: "outpatient-services" },
-      { name: "Inpatient Services", slug: "inpatient-services" },
-      { name: "Pharmacy", slug: "pharmacy" },
-    ],
-  },
-  {
-    number: "02",
-    title: "Diagnostic & Imaging",
-    description:
-      "Laboratory investigations and medical imaging services that support clinical assessment and diagnosis.",
-    icon: Scan,
-    services: [
-      { name: "Laboratory", slug: "laboratory" },
-      { name: "MRI – Magnetic Resonance Imaging", slug: "mri" },
-      { name: "CT Scan – Computed Tomography", slug: "ct-scan" },
-      { name: "X-Ray – Radiography", slug: "x-ray" },
-      { name: "Ultrasound – Sonography", slug: "ultrasound" },
-      { name: "Echocardiography / ECG", slug: "echocardiography-ecg" },
-    ],
-  },
-  {
-    number: "03",
-    title: "Critical & Specialised Facilities",
-    description:
-      "Hospital facilities and services supporting patients who require closer monitoring, specialised treatment or procedural care.",
-    icon: HeartPulse,
-    services: [
-      { name: "Intensive Care Unit (ICU)", slug: "intensive-care-unit" },
-      {
-        name: "Neonatal Intensive Care Unit (NICU)",
-        slug: "neonatal-intensive-care-unit",
-      },
-      { name: "High Dependency Unit (HDU)", slug: "high-dependency-unit" },
-      { name: "Dialysis", slug: "dialysis" },
-      { name: "Major & Minor Theatres", slug: "major-minor-theatres" },
-    ],
-  },
-  {
-    number: "04",
-    title: "Allied & Support Services",
-    description:
-      "Additional services supporting patient wellbeing, rehabilitation, routine care and different stages of life.",
-    icon: Activity,
-    services: [
-      { name: "Dental Services", slug: "dental-services" },
-      {
-        name: "Physiotherapy / Occupational Therapy",
-        slug: "physiotherapy-occupational-therapy",
-      },
-      {
-        name: "ANC / Child Welfare Clinics",
-        slug: "anc-child-welfare-clinics",
-      },
-      { name: "Optical Services", slug: "optical-services" },
-      { name: "Maternity Services", slug: "maternity-services" },
-    ],
-  },
-];
 
 export default function ServicesPage() {
   return (
     <>
+    
       {/* Breadcrumbs */}
       <div className="container-site">
         <Breadcrumbs items={[{ label: "Services" }]} />
@@ -160,7 +106,7 @@ export default function ServicesPage() {
       >
         <div className="grid gap-6 lg:grid-cols-2">
           {serviceGroups.map((group) => {
-            const Icon = group.icon;
+           const Icon = groupIcons[group.key];
 
             return (
               <article
@@ -190,14 +136,13 @@ export default function ServicesPage() {
                     <li key={service.slug}>
                       <Link
                         href={`/services/${service.slug}/`}
-                        className="group flex h-16 items-center justify-start gap-3 text-sm leading-6 text-slate-700 transition-colors hover:text-[var(--brand-navy)] shadow-sm shadow-brand-gold/30  group-hover:border-[var(--brand-gold)] rounded-md px-1"
+                        className="group flex items-center gap-3 h-16 justify-center shadow-sm shadow-brand-navy/30 rounded-md text-sm leading-6 text-slate-700 transition-colors hover:text-[var(--brand-navy)] hover:shadow-brand-gold/40"
                       >
                         <span
                           className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--brand-gold)] transition-transform group-hover:scale-125"
                           aria-hidden="true"
                         />
-
-                        <span className="border-b border-transparent transition-colors hover:scale-105">
+                        <span className="border-b border-transparent transition-colors">
                           {service.name}
                         </span>
                       </Link>
