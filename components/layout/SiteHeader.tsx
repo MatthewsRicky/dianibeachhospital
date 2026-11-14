@@ -11,7 +11,7 @@ export default function SiteHeader() {
         <Link
           href="/"
           aria-label="Diani Beach Hospital homepage"
-          className="relative block h-14 w-56"
+          className="relative block h-14 w-24 sm:w-32 md:w-56"
         >
           <Image
             src="/images/branding/Asset-2@3x.svg"

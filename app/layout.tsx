@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SiteHeader from "@/components/layout/SiteHeader";
 import "./globals.css";
+import SiteFooter from "@/components/layout/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Diani Beach Hospital",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
         <SiteHeader />
         <main>{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );
