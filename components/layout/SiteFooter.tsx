@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 
 const exploreLinks = [
@@ -27,9 +28,16 @@ export default function SiteFooter() {
           <div className="max-w-sm">
             <Link
               href="/"
-              className="inline-block text-2xl font-bold tracking-tight text-white"
+              aria-label="Diani Beach Hospital homepage"
+              className="relative block h-14 w-24 sm:w-32 md:w-56 bg-white rounded-md mb-4"
             >
-              Diani Beach Hospital
+              <Image
+                src="/images/branding/Asset-2@3x.svg"
+                alt="Diani Beach Hospital"
+                fill
+                priority
+                className="object-contain object-left px-3 py-2"
+              />
             </Link>
 
             <p className="mt-5 text-sm leading-7 text-white/70">
@@ -150,10 +158,7 @@ export default function SiteFooter() {
         {/* Bottom bar */}
         <div className="mt-14 border-t border-white/15 pt-7">
           <div className="flex flex-col gap-3 text-center text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:text-left">
-            <p>
-              © {currentDate} Diani Beach Hospital. All rights
-              reserved.
-            </p>
+            <p>© {currentDate} Diani Beach Hospital. All rights reserved.</p>
 
             <p>Professional Healthcare with a Personal Touch.</p>
           </div>

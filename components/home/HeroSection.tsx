@@ -85,7 +85,7 @@ export default function HeroSection() {
           <div className="mt-9 flex flex-wrap gap-4">
             <Link
               href="/appointment-booking/"
-              className="rounded-md bg-[#006B63] px-6 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#00564F]"
+              className="rounded-md bg-brand-navy px-6 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#00564F]"
             >
               Book an Appointment
             </Link>
