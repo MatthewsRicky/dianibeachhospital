@@ -7,37 +7,37 @@ import { useEffect, useState } from "react";
 const slides = [
   {
     id: 1,
-    image: "/images/hero/Years-Of-Excelence-in-Health-care.-750x375-5.png",
+    image: "/images/hero/Years-Of-Excelence-in-Health-care.png",
     alt: "Diani Beach Hospital",
   },
   {
     id: 2,
-    image: "/images/hero/ICU1.jpg",
+    image: "/images/hero/ICU.png",
     alt: "Intensive Care Unit at Diani Beach Hospital",
   },
   {
     id: 3,
-    image: "/images/hero/MRI-4.jpg",
+    image: "/images/hero/MRI.png",
     alt: "MRI facilities at Diani Beach Hospital",
   },
   {
     id: 4,
-    image: "/images/hero/MT1.jpg",
+    image: "/images/hero/Major-Theatre.png",
     alt: "Hospital theatre facilities",
   },
   {
     id: 5,
-    image: "/images/hero/NICU2.jpg",
+    image: "/images/hero/NICU.png",
     alt: "Neonatal Intensive Care Unit",
   },
   {
     id: 6,
-    image: "/images/hero/PW1.jpg",
+    image: "/images/hero/Inpatient.png",
     alt: "Diani Beach Hospital facilities",
   },
   {
     id: 7,
-    image: "/images/hero/Untitled-design-2025-06-21T132844.505.png",
+    image: "/images/hero/dianobeachhospital.png",
     alt: "Healthcare facilities at Diani Beach Hospital",
   },
 ];
@@ -111,7 +111,7 @@ export default function HeroSection() {
             }
           }}
         >
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-slate-100 sm:aspect-[5/3] lg:aspect-[4/3]">
+          <div className="relative aspect-[5/3] overflow-hidden rounded-xl bg-slate-100 sm:aspect-[16/9] lg:aspect-[16/10]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}

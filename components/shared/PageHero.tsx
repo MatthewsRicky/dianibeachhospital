@@ -7,6 +7,7 @@ type PageHeroProps = {
   image?: string;
   imageAlt?: string;
   children?: React.ReactNode;
+  className?: String;
 };
 
 export default function PageHero({
@@ -16,6 +17,7 @@ export default function PageHero({
   image,
   imageAlt = "",
   children,
+  className
 }: PageHeroProps) {
   return (
     <section className="bg-[var(--brand-navy-light)]">
