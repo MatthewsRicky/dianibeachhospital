@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
@@ -33,7 +34,7 @@ const slides = [
   {
     id: 6,
     image: "/images/hero/Inpatient.png",
-    alt: "Diani Beach Hospital facilities",
+    alt: "Diani Beach Hospital inpatient facilities",
   },
   {
     id: 7,
@@ -48,136 +49,138 @@ export default function HeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  const showNext = () => {
+  const nextSlide = () => {
     setActiveSlide((current) => (current + 1) % slides.length);
   };
 
-  const showPrevious = () => {
+  const previousSlide = () => {
     setActiveSlide((current) => (current - 1 + slides.length) % slides.length);
   };
 
   useEffect(() => {
     if (isPaused) return;
 
-    const interval = window.setInterval(showNext, SLIDE_INTERVAL);
+    const interval = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % slides.length);
+    }, SLIDE_INTERVAL);
 
     return () => window.clearInterval(interval);
   }, [isPaused]);
 
   return (
-    <section className="bg-white">
-      <div className="mx-auto grid min-h-[540px] max-w-7xl grid-cols-1 items-center gap-10 px-5 py-12 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-16">
-        {/* LEFT: Static content */}
-        <div className="max-w-xl">
-          <p className="mb-5 text-sm font-bold uppercase tracking-[0.18em] text-[#006B63]">
-            Welcome to Diani Beach Hospital
-          </p>
+    <section
+      className="relative isolate overflow-hidden bg-[var(--brand-navy-dark)]"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setIsPaused(false);
+        }
+      }}
+    >
+      {/* Background slideshow */}
+      <div className="absolute inset-0">
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              activeSlide === index ? "opacity-100" : "opacity-0"
+            }`}
+            aria-hidden="true"
+          >
+            <Image
+              src={slide.image}
+              alt=""
+              fill
+              priority={index === 0}
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+        ))}
 
-          <h1 className="text-4xl font-bold leading-tight tracking-tight text-[#0b1464] sm:text-5xl xl:text-6xl">
-            Professional Healthcare with a Personal Touch.
+        {/* Brand overlays */}
+        <div className="absolute inset-0 bg-[var(--brand-navy-dark)]/45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand-navy-dark)]/45 via-[var(--brand-navy-dark)]/35 to-[var(--brand-navy-dark)]/25" />
+      </div>
+
+      {/* Hero content */}
+      <div className="container-site relative flex min-h-[440px] items-center py-20 sm:min-h-[500px] lg:min-h-[540px]">
+        <div className="max-w-3xl">
+          <span className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--brand-gold)]">
+            Welcome to Diani Beach Hospital
+          </span>
+
+          <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Professional Healthcare
+            <span className="mt-2 block text-[var(--brand-gold)]">
+              with a Personal Touch.
+            </span>
           </h1>
 
-          <p className="mt-6 max-w-lg text-base leading-8 text-slate-600 md:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
             Committed to providing quality healthcare through professional
             service and a personal approach to patient care.
           </p>
 
-          <div className="mt-9 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/appointment-booking/"
-              className="rounded-md bg-brand-navy px-6 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#00564F]"
+              className="inline-flex items-center gap-2 rounded-md bg-[var(--brand-gold)] px-6 py-3.5 text-sm font-semibold text-[var(--brand-navy-dark)] transition-colors hover:bg-white"
             >
               Book an Appointment
+              <ArrowRight size={17} aria-hidden="true" />
             </Link>
 
             <Link
               href="/services/"
-              className="rounded-md border border-[#0b1464]/20 px-6 py-4 text-sm font-semibold text-[#0b1464] transition-colors hover:border-[#006B63] hover:text-[#006B63]"
+              className="inline-flex items-center gap-2 rounded-md border border-white/50 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:border-[var(--brand-gold)] hover:bg-white/10 hover:text-[var(--brand-gold)]"
             >
               Explore Our Services
+              <ArrowRight size={17} aria-hidden="true" />
             </Link>
           </div>
         </div>
+      </div>
 
-        {/* RIGHT: Image slideshow */}
-        <div
-          className="relative w-full"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onFocus={() => setIsPaused(true)}
-          onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget)) {
-              setIsPaused(false);
-            }
-          }}
-        >
-          <div className="relative aspect-[5/3] overflow-hidden rounded-xl bg-slate-100 sm:aspect-[16/9] lg:aspect-[16/10]">
-            {slides.map((slide, index) => (
-              <div
-                key={slide.id}
-                aria-hidden={index !== activeSlide}
-                className={`absolute inset-0 transition-opacity duration-700 ${
-                  index === activeSlide ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <Image
-                  src={slide.image}
-                  alt={slide.alt}
-                  fill
-                  priority={index === 0}
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-fit"
-                />
-              </div>
-            ))}
+      {/* Slideshow controls */}
+      <div className="container-site absolute bottom-6 left-0 right-0 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          {slides.map((slide, index) => (
+            <button
+              key={slide.id}
+              type="button"
+              onClick={() => setActiveSlide(index)}
+              aria-label={`Show hero image ${index + 1} of ${slides.length}`}
+              aria-pressed={activeSlide === index}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                activeSlide === index
+                  ? "w-8 bg-[var(--brand-gold)]"
+                  : "w-2 bg-white/50 hover:bg-white"
+              }`}
+            />
+          ))}
+        </div>
 
-            {/* Image controls */}
-            <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-[#0b1464]/75 to-transparent px-5 pb-5 pt-12">
-              {/* Slide indicators */}
-              <div className="flex items-center gap-2">
-                {slides.map((slide, index) => (
-                  <button
-                    key={slide.id}
-                    type="button"
-                    aria-label={`Go to slide ${index + 1} of ${slides.length}`}
-                    aria-current={index === activeSlide ? "true" : undefined}
-                    onClick={() => setActiveSlide(index)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      index === activeSlide
-                        ? "w-8 bg-white"
-                        : "w-3 bg-white/50 hover:bg-white"
-                    }`}
-                  />
-                ))}
-              </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={previousSlide}
+            aria-label="Previous hero image"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:bg-white/15"
+          >
+            <ChevronLeft size={19} aria-hidden="true" />
+          </button>
 
-              {/* Previous / Next */}
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={showPrevious}
-                  aria-label="Previous slide"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/60 text-white transition-colors hover:bg-white hover:text-[#0b1464]"
-                >
-                  ←
-                </button>
-
-                <button
-                  type="button"
-                  onClick={showNext}
-                  aria-label="Next slide"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/60 text-white transition-colors hover:bg-white hover:text-[#0b1464]"
-                >
-                  →
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Subtle image caption */}
-          <p className="mt-3 text-right text-xs text-slate-400">
-            Diani Beach Hospital
-          </p>
+          <button
+            type="button"
+            onClick={nextSlide}
+            aria-label="Next hero image"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:bg-white/15"
+          >
+            <ChevronRight size={19} aria-hidden="true" />
+          </button>
         </div>
       </div>
     </section>

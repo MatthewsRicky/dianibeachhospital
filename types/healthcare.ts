@@ -8,13 +8,24 @@ export type ServiceGroup = {
   services: HospitalService[];
 };
 
+
 export type MedicalSpecialization = {
   name: string;
   slug: string;
+  heroImage?: string;
+  sourceUrl: string;
+
+  introduction: string;
+
+  sections: HealthcareSection[];
+
+  verification: "source-content" | "needs-verification";
 };
+
 export type HealthcareContentItem = {
   title: string;
   description: string;
+  relatedServices?: string[];
 };
 
 export type HealthcareSection = {
@@ -39,3 +50,4 @@ export type HospitalService = HealthcarePageContent & {
   name: string;
   slug: string;
 };
+
