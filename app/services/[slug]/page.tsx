@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
-import PageHero from "@/components/shared/PageHero";
 import ContentSection from "@/components/shared/ContentSection";
 import PageCTA from "@/components/shared/PageCTA";
 import RelatedLinks from "@/components/shared/RelatedLinks";
