@@ -12,4 +12,4 @@ export const navigationItems: NavigationItem[] = [
   { label: "Contact Us", href: "/contact-us/" },
 ];
 
-export const appointmentHref = "/appointment-booking/";
+export const appointmentHref = "/contact-us/";
