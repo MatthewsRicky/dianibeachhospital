@@ -39,16 +39,16 @@ export default function BranchesSection() {
         </div>
 
         {/* Branch cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {branches.map((branch) => {
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {branches.map((branch, index) => {
             const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
               `${branch.name}, ${branch.address}, Kenya`,
             )}`;
 
             return (
               <article
-                key={branch.id}
-                className="group flex min-h-56 flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-periwinkle)] hover:shadow-lg"
+                key={branch.slug}
+                className="group flex min-h-60 flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-periwinkle)] hover:shadow-lg"
               >
                 <div>
                   <div className="flex items-center justify-between">
@@ -57,7 +57,7 @@ export default function BranchesSection() {
                     </span>
 
                     <span className="text-xs font-semibold tracking-widest text-slate-400">
-                      {branch.id.toUpperCase()}
+                      {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
 
@@ -65,29 +65,40 @@ export default function BranchesSection() {
                     {branch.name}
                   </h3>
 
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {branch.address}
+                  <p className="mt-2 text-sm font-medium text-slate-500">
+                    {branch.location}
                   </p>
 
-                  <p className="mt-1 text-sm text-slate-500">
-                    {branch.postalCode}
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    {branch.address}
                   </p>
                 </div>
 
-                <a
-                  href={directionsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Get directions to Diani Beach Hospital, ${branch.name}`}
-                  className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[var(--brand-navy)] transition-colors hover:text-[var(--brand-periwinkle-dark)]"
-                >
-                  Get directions
-                  <ArrowUpRight
-                    size={16}
-                    aria-hidden="true"
-                    className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </a>
+                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+                  <Link
+                    href={`/branches/${branch.slug}/`}
+                    aria-label={`View ${branch.name} branch details`}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand-navy)] transition-colors hover:text-[var(--brand-periwinkle-dark)]"
+                  >
+                    View branch
+                    <ArrowUpRight
+                      size={16}
+                      aria-hidden="true"
+                      className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    />
+                  </Link>
+
+                  <a
+                    href={directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Get directions to ${branch.name} branch`}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-[var(--brand-navy)]"
+                  >
+                    Get directions
+                    <ArrowUpRight size={15} aria-hidden="true" />
+                  </a>
+                </div>
               </article>
             );
           })}
