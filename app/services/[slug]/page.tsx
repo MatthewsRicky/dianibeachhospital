@@ -7,6 +7,7 @@ import PageHero from "@/components/shared/PageHero";
 import ContentSection from "@/components/shared/ContentSection";
 import PageCTA from "@/components/shared/PageCTA";
 import RelatedLinks from "@/components/shared/RelatedLinks";
+import ServicePageHero from "@/components/services/ServicePageHero";
 
 import { services, getServiceBySlug } from "@/lib/services";
 
@@ -85,7 +86,7 @@ async function ServicePageContent({ params }: ServicePageProps) {
         ]}
       />
 
-      <PageHero
+      <ServicePageHero
         eyebrow="Our Healthcare Services"
         title={service.name}
         description={service.introduction}

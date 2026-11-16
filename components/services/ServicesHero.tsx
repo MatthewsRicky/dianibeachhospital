@@ -42,19 +42,44 @@ export default function ServicesHero() {
   }, []);
 
   return (
-    <section className="bg-[var(--brand-navy-light)]">
-      <div className="container-site grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
-        {/* Hero content */}
-        <div className="max-w-xl">
-          <span className="section-eyebrow">
-            Healthcare at Diani Beach Hospital
-          </span>
+    <section className="relative isolate flex min-h-[440px] items-center overflow-hidden bg-[var(--brand-navy-dark)] sm:min-h-[500px] lg:min-h-[540px]">
+      {/* Background slideshow */}
+      {slides.map((slide, index) => (
+        <div
+          key={slide.src}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            activeSlide === index ? "z-0 opacity-100" : "z-[-1] opacity-0"
+          }`}
+          aria-hidden={activeSlide !== index}
+        >
+          <Image
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+      ))}
 
-          <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-[var(--brand-navy)] sm:text-5xl">
+      {/* Overlays */}
+      <div className="absolute inset-0 z-0 bg-[var(--brand-navy-dark)]/35" />
+
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-[var(--brand-navy-dark)]/75 via-[var(--brand-navy-dark)]/55 to-[var(--brand-navy-dark)]/30" />
+
+      {/* Content */}
+      <div className="container-site relative z-10 w-full py-20 sm:py-24 lg:py-28">
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--brand-gold)]">
+            Healthcare at Diani Beach Hospital
+          </p>
+
+          <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
             Healthcare Services Designed Around Your Needs
           </h1>
 
-          <p className="mt-6 max-w-lg text-base leading-8 text-slate-600 sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
             From everyday consultations and diagnostic services to specialised
             hospital facilities, we are committed to supporting your healthcare
             needs with professional care and personal attention.
@@ -69,73 +94,52 @@ export default function ServicesHero() {
               <ArrowRight size={17} aria-hidden="true" />
             </Link>
 
-            <Link href="/contact-us/" className="button-secondary">
+            <Link
+              href="/contact-us/"
+              className="inline-flex items-center justify-center rounded-lg border border-white/50 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"
+            >
               Contact Us
             </Link>
           </div>
         </div>
 
-        {/* Image slideshow */}
-        <div className="relative">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white shadow-sm">
+        {/* Slideshow controls */}
+        <div className="mt-10 flex max-w-3xl items-center justify-between">
+          <div className="flex items-center gap-2">
             {slides.map((slide, index) => (
-              <div
+              <button
                 key={slide.src}
-                className={`absolute inset-0 transition-opacity duration-700 ${
-                  activeSlide === index ? "z-10 opacity-100" : "z-0 opacity-0"
+                type="button"
+                onClick={() => setActiveSlide(index)}
+                aria-label={`Show image ${index + 1}`}
+                aria-current={activeSlide === index ? "true" : undefined}
+                className={`h-2 rounded-full transition-all ${
+                  activeSlide === index
+                    ? "w-7 bg-[var(--brand-gold)]"
+                    : "w-2 bg-white/50 hover:bg-white/80"
                 }`}
-                aria-hidden={activeSlide !== index}
-              >
-                <Image
-                  src={slide.src}
-                  alt={slide.alt}
-                  fill
-                  priority={index === 0}
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-contain"
-                />
-              </div>
+              />
             ))}
           </div>
 
-          {/* Slideshow controls */}
-          <div className="mt-5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {slides.map((slide, index) => (
-                <button
-                  key={slide.src}
-                  type="button"
-                  onClick={() => setActiveSlide(index)}
-                  aria-label={`Show image ${index + 1}`}
-                  aria-current={activeSlide === index ? "true" : undefined}
-                  className={`h-2 rounded-full transition-all ${
-                    activeSlide === index
-                      ? "w-7 bg-[var(--brand-navy)]"
-                      : "w-2 bg-[var(--brand-navy)]/25 hover:bg-[var(--brand-navy)]/50"
-                  }`}
-                />
-              ))}
-            </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={previousSlide}
+              aria-label="Previous image"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:bg-white/15"
+            >
+              <ChevronLeft size={19} aria-hidden="true" />
+            </button>
 
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={previousSlide}
-                aria-label="Previous image"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--brand-navy)]/15 text-[var(--brand-navy)] transition-colors hover:bg-white"
-              >
-                <ChevronLeft size={19} aria-hidden="true" />
-              </button>
-
-              <button
-                type="button"
-                onClick={nextSlide}
-                aria-label="Next image"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--brand-navy)]/15 text-[var(--brand-navy)] transition-colors hover:bg-white"
-              >
-                <ChevronRight size={19} aria-hidden="true" />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={nextSlide}
+              aria-label="Next image"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:bg-white/15"
+            >
+              <ChevronRight size={19} aria-hidden="true" />
+            </button>
           </div>
         </div>
       </div>
