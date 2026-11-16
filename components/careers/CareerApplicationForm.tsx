@@ -1,19 +1,49 @@
 "use client";
 
-import { useState, type FormEvent, type ChangeEvent } from "react";
+import {
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+} from "react";
+
 import { FileUp, Send, CheckCircle2 } from "lucide-react";
 
+import {
+  submitCareerApplication,
+  type CareerFormState,
+} from "@/app/actions/careers";
+
+const initialState: CareerFormState = {
+  success: false,
+  message: "",
+};
+
 export default function CareerApplicationForm() {
+  const [state, formAction, pending] = useActionState(
+    submitCareerApplication,
+    initialState,
+  );
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState("");
-  const [statusMessage, setStatusMessage] = useState("");
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state.success) {
+      formRef.current?.reset();
+      setSelectedFile(null);
+      setFileError("");
+    }
+  }, [state.success]);
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
     setFileError("");
     setSelectedFile(null);
-    setStatusMessage("");
 
     if (!file) return;
 
@@ -36,7 +66,7 @@ export default function CareerApplicationForm() {
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setFileError("Your CV must be smaller than 5 MB.");
+      setFileError("Your CV must not exceed 5 MB.");
       event.target.value = "";
       return;
     }
@@ -44,17 +74,15 @@ export default function CareerApplicationForm() {
     setSelectedFile(file);
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setStatusMessage(
-      "The application form is ready, but online submission has not yet been connected. Please connect the hospital's recruitment endpoint before accepting applications.",
-    );
-  }
-
   const inputClass =
     "mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition-colors placeholder:text-slate-400 focus:border-[var(--brand-periwinkle)] focus:ring-2 focus:ring-[var(--brand-periwinkle-light)]";
 
   const labelClass = "text-sm font-semibold text-[var(--brand-navy)]";
+  const errorClass = "mt-2 text-sm text-red-600";
+
+  function fieldError(field: string) {
+    return state.errors?.[field]?.[0];
+  }
 
   return (
     <section id="career-application" className="section-padding">
@@ -99,13 +127,31 @@ export default function CareerApplicationForm() {
               <h3 className="text-2xl font-bold text-[var(--brand-navy)]">
                 Career Application
               </h3>
+
               <p className="mt-2 text-sm leading-6 text-slate-500">
                 Complete the details below. Fields marked with an asterisk are
                 required.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              ref={formRef}
+              action={formAction}
+              encType="multipart/form-data"
+              className="space-y-6"
+            >
+              {/* Honeypot field */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="career-website">Website</label>
+                <input
+                  id="career-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <label htmlFor="applicant-name" className={labelClass}>
@@ -118,8 +164,12 @@ export default function CareerApplicationForm() {
                     autoComplete="name"
                     placeholder="Enter your full name"
                     required
+                    aria-invalid={!!fieldError("name")}
                     className={inputClass}
                   />
+                  {fieldError("name") && (
+                    <p className={errorClass}>{fieldError("name")}</p>
+                  )}
                 </div>
 
                 <div>
@@ -133,8 +183,12 @@ export default function CareerApplicationForm() {
                     autoComplete="email"
                     placeholder="you@example.com"
                     required
+                    aria-invalid={!!fieldError("email")}
                     className={inputClass}
                   />
+                  {fieldError("email") && (
+                    <p className={errorClass}>{fieldError("email")}</p>
+                  )}
                 </div>
 
                 <div>
@@ -148,8 +202,12 @@ export default function CareerApplicationForm() {
                     autoComplete="tel"
                     placeholder="Enter your phone number"
                     required
+                    aria-invalid={!!fieldError("phone")}
                     className={inputClass}
                   />
+                  {fieldError("phone") && (
+                    <p className={errorClass}>{fieldError("phone")}</p>
+                  )}
                 </div>
 
                 <div>
@@ -162,8 +220,12 @@ export default function CareerApplicationForm() {
                     type="text"
                     placeholder="Enter position or area of interest"
                     required
+                    aria-invalid={!!fieldError("position")}
                     className={inputClass}
                   />
+                  {fieldError("position") && (
+                    <p className={errorClass}>{fieldError("position")}</p>
+                  )}
                 </div>
               </div>
 
@@ -176,8 +238,12 @@ export default function CareerApplicationForm() {
                   name="message"
                   rows={5}
                   placeholder="Tell us briefly about yourself, your experience and why you would like to join our team..."
+                  aria-invalid={!!fieldError("message")}
                   className={`${inputClass} resize-y`}
                 />
+                {fieldError("message") && (
+                  <p className={errorClass}>{fieldError("message")}</p>
+                )}
               </div>
 
               {/* CV Upload */}
@@ -226,9 +292,9 @@ export default function CareerApplicationForm() {
                   </p>
                 )}
 
-                {fileError && (
-                  <p role="alert" className="mt-3 text-sm text-red-600">
-                    {fileError}
+                {(fileError || fieldError("cv")) && (
+                  <p role="alert" className={errorClass}>
+                    {fileError || fieldError("cv")}
                   </p>
                 )}
               </div>
@@ -242,18 +308,23 @@ export default function CareerApplicationForm() {
 
                 <button
                   type="submit"
-                  className="inline-flex w-full items-center justify-center gap-3 rounded-lg bg-[var(--brand-navy)] px-6 py-4 font-semibold text-white transition-colors hover:bg-[var(--brand-navy-dark)] sm:w-auto"
+                  disabled={pending}
+                  className="inline-flex w-full items-center justify-center gap-3 rounded-lg bg-[var(--brand-navy)] px-6 py-4 font-semibold text-white transition-colors hover:bg-[var(--brand-navy-dark)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                 >
-                  Submit Application
+                  {pending ? "Submitting..." : "Submit Application"}
                   <Send size={17} aria-hidden="true" />
                 </button>
 
-                {statusMessage && (
+                {state.message && (
                   <p
-                    role="status"
-                    className="mt-4 rounded-lg bg-[var(--brand-gold-light)] p-4 text-sm leading-6 text-[var(--brand-navy)]"
+                    role={state.success ? "status" : "alert"}
+                    className={`mt-4 rounded-lg p-4 text-sm leading-6 ${
+                      state.success
+                        ? "bg-[var(--brand-navy-light)] text-[var(--brand-navy)]"
+                        : "bg-red-50 text-red-700"
+                    }`}
                   >
-                    {statusMessage}
+                    {state.message}
                   </p>
                 )}
               </div>

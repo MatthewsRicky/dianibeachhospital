@@ -1,23 +1,39 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { Send, CheckCircle2 } from "lucide-react";
+import { useActionState, useEffect, useRef } from "react";
+import { Send } from "lucide-react";
+
+import { submitContact, type ContactFormState } from "@/app/actions/contact";
+
+const initialState: ContactFormState = {
+  success: false,
+  message: "",
+};
 
 export default function ContactEnquiryForm() {
-  const [statusMessage, setStatusMessage] = useState("");
+  const [state, formAction, pending] = useActionState(
+    submitContact,
+    initialState,
+  );
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state.success) {
+      formRef.current?.reset();
+    }
+  }, [state.success]);
 
   const inputClass =
     "mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition-colors placeholder:text-slate-400 focus:border-[var(--brand-periwinkle)] focus:ring-2 focus:ring-[var(--brand-periwinkle-light)]";
 
   const labelClass = "text-sm font-semibold text-[var(--brand-navy)]";
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    setStatusMessage(
-      "Your enquiry form is ready, but online submission has not yet been connected. Please contact the hospital directly for now.",
-    );
+  function fieldError(field: string) {
+    return state.errors?.[field]?.[0];
   }
+
+  const errorClass = "mt-2 text-sm text-red-600";
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
@@ -34,7 +50,19 @@ export default function ContactEnquiryForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form ref={formRef} action={formAction} className="space-y-6">
+        {/* Honeypot field */}
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="contact-website">Website</label>
+          <input
+            id="contact-website"
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
+
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label htmlFor="contact-name" className={labelClass}>
@@ -47,8 +75,12 @@ export default function ContactEnquiryForm() {
               autoComplete="name"
               placeholder="Your full name"
               required
+              aria-invalid={!!fieldError("name")}
               className={inputClass}
             />
+            {fieldError("name") && (
+              <p className={errorClass}>{fieldError("name")}</p>
+            )}
           </div>
 
           <div>
@@ -62,8 +94,12 @@ export default function ContactEnquiryForm() {
               autoComplete="email"
               placeholder="you@example.com"
               required
+              aria-invalid={!!fieldError("email")}
               className={inputClass}
             />
+            {fieldError("email") && (
+              <p className={errorClass}>{fieldError("email")}</p>
+            )}
           </div>
 
           <div>
@@ -77,8 +113,12 @@ export default function ContactEnquiryForm() {
               autoComplete="tel"
               placeholder="Your phone number"
               required
+              aria-invalid={!!fieldError("phone")}
               className={inputClass}
             />
+            {fieldError("phone") && (
+              <p className={errorClass}>{fieldError("phone")}</p>
+            )}
           </div>
 
           <div>
@@ -91,8 +131,12 @@ export default function ContactEnquiryForm() {
               type="text"
               autoComplete="address-level2"
               placeholder="Where are you contacting us from?"
+              aria-invalid={!!fieldError("city")}
               className={inputClass}
             />
+            {fieldError("city") && (
+              <p className={errorClass}>{fieldError("city")}</p>
+            )}
           </div>
         </div>
 
@@ -106,15 +150,16 @@ export default function ContactEnquiryForm() {
             defaultValue=""
             className={inputClass}
           >
-            <option value="" disabled>
-              Select an enquiry type
-            </option>
+            <option value="">Select an enquiry type</option>
             <option value="general">General Enquiry</option>
             <option value="services">Services and Facilities</option>
             <option value="appointments">Appointments</option>
             <option value="branches">Branch Information</option>
             <option value="other">Other</option>
           </select>
+          {fieldError("subject") && (
+            <p className={errorClass}>{fieldError("subject")}</p>
+          )}
         </div>
 
         <div>
@@ -127,8 +172,12 @@ export default function ContactEnquiryForm() {
             rows={5}
             required
             placeholder="How can we assist you?"
+            aria-invalid={!!fieldError("message")}
             className={`${inputClass} resize-y`}
           />
+          {fieldError("message") && (
+            <p className={errorClass}>{fieldError("message")}</p>
+          )}
         </div>
 
         <div className="border-t border-slate-100 pt-6">
@@ -139,18 +188,23 @@ export default function ContactEnquiryForm() {
 
           <button
             type="submit"
-            className="inline-flex w-full items-center justify-center gap-3 rounded-lg bg-[var(--brand-navy)] px-6 py-4 font-semibold text-white transition-colors hover:bg-[var(--brand-navy-dark)] sm:w-auto"
+            disabled={pending}
+            className="inline-flex w-full items-center justify-center gap-3 rounded-lg bg-[var(--brand-navy)] px-6 py-4 font-semibold text-white transition-colors hover:bg-[var(--brand-navy-dark)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           >
-            Send Enquiry
+            {pending ? "Sending..." : "Send Enquiry"}
             <Send size={17} aria-hidden="true" />
           </button>
 
-          {statusMessage && (
+          {state.message && (
             <p
-              role="status"
-              className="mt-4 rounded-lg bg-[var(--brand-gold-light)] p-4 text-sm leading-6 text-[var(--brand-navy)]"
+              role={state.success ? "status" : "alert"}
+              className={`mt-4 rounded-lg p-4 text-sm leading-6 ${
+                state.success
+                  ? "bg-[var(--brand-navy-light)] text-[var(--brand-navy)]"
+                  : "bg-red-50 text-red-700"
+              }`}
             >
-              {statusMessage}
+              {state.message}
             </p>
           )}
         </div>
